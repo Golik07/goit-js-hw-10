@@ -19,6 +19,7 @@ fetchBreeds()
     nameCats(data);
   })
   .catch(error => {
+    refs.loader.style.display = 'none';
     refs.error.style.display = 'flex';
   });
 
