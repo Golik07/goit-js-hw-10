@@ -1,26 +1,24 @@
 import { fetchBreeds } from './cat-api';
 import { fetchCatByBreed } from './cat-api';
 
-refs = {
-  select: document.querySelector('.breed-select'),
-  loader: document.querySelector('.loader'),
-  error: document.querySelector('.error'),
-  cat: document.querySelector('.cat-info'),
-};
+const select = document.querySelector('.breed-select');
+const loader = document.querySelector('.loader');
+const error = document.querySelector('.error');
+const cat = document.querySelector('.cat-info');
 
-refs.select.style.display = 'none';
-refs.loader.style.display = 'flex';
-refs.error.style.display = 'none';
+select.style.display = 'none';
+loader.style.display = 'flex';
+error.style.display = 'none';
 
 fetchBreeds()
   .then(data => {
-    refs.select.style.display = 'flex';
-    refs.loader.style.display = 'none';
+    select.style.display = 'flex';
+    loader.style.display = 'none';
     nameCats(data);
   })
   .catch(error => {
-    refs.loader.style.display = 'none';
-    refs.error.style.display = 'flex';
+    loader.style.display = 'none';
+    error.style.display = 'flex';
   });
 
 function nameCats(cats) {
@@ -29,24 +27,24 @@ function nameCats(cats) {
       return `<option value = ${cat.id}>${cat.name}</option>`;
     })
     .join('');
-  refs.select.insertAdjacentHTML('afterbegin', render);
+  select.insertAdjacentHTML('afterbegin', render);
 }
 
-refs.select.addEventListener('change', setOutput);
+select.addEventListener('change', setOutput);
 
 function setOutput() {
   clearArticles();
-  refs.error.style.display = 'none';
-  refs.loader.style.display = 'flex';
-  fetchCatByBreed(refs.select.value)
+  error.style.display = 'none';
+  loader.style.display = 'flex';
+  fetchCatByBreed(select.value)
     .then(data => {
-      refs.loader.style.display = 'none';
+      loader.style.display = 'none';
 
       renderCats(data);
     })
     .catch(error => {
-      refs.error.style.display = 'flex';
-      refs.loader.style.display = 'none';
+      error.style.display = 'flex';
+      loader.style.display = 'none';
     });
 }
 
@@ -62,9 +60,9 @@ function renderCats(cats) {
       <p><span class="temperament">Temperament: </span>${temperament}</p>
       </div>`
   );
-  refs.cat.insertAdjacentHTML('afterbegin', renderCat);
+  cat.insertAdjacentHTML('afterbegin', renderCat);
 }
 
 function clearArticles() {
-  refs.cat.innerHTML = '';
+  cat.innerHTML = '';
 }
