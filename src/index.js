@@ -1,14 +1,14 @@
 import { fetchBreeds } from './cat-api';
 import { fetchCatByBreed } from './cat-api';
+import Notiflix from 'notiflix';
+import SlimSelect from 'slim-select';
 
 const select = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
-const error = document.querySelector('.error');
 const cat = document.querySelector('.cat-info');
 
 select.style.display = 'none';
 loader.style.display = 'flex';
-error.style.display = 'none';
 
 fetchBreeds()
   .then(data => {
@@ -18,7 +18,9 @@ fetchBreeds()
   })
   .catch(error => {
     loader.style.display = 'none';
-    error.style.display = 'flex';
+    Notiflix.Notify.failure(
+      `❌ Oops! Something went wrong! Try reloading the page!`
+    );
   });
 
 function nameCats(cats) {
@@ -34,16 +36,24 @@ select.addEventListener('change', setOutput);
 
 function setOutput() {
   clearArticles();
-  error.style.display = 'none';
+
   loader.style.display = 'flex';
   fetchCatByBreed(select.value)
     .then(data => {
-      loader.style.display = 'none';
-
-      renderCats(data);
+      if (data.length === 1) {
+        loader.style.display = 'none';
+        renderCats(data);
+      } else {
+        Notiflix.Notify.failure(
+          `❌ Oops! Something went wrong! Try reloading the page!`
+        );
+        loader.style.display = 'none';
+      }
     })
     .catch(error => {
-      error.style.display = 'flex';
+      Notiflix.Notify.failure(
+        `❌ Oops! Something went wrong! Try reloading the page!`
+      );
       loader.style.display = 'none';
     });
 }
@@ -60,6 +70,7 @@ function renderCats(cats) {
       <p><span class="temperament">Temperament: </span>${temperament}</p>
       </div>`
   );
+
   cat.insertAdjacentHTML('afterbegin', renderCat);
 }
 
