@@ -7,7 +7,9 @@
   font-size: 20px;
   font-weight: bold;
 }
-
+.ss-main {
+  width: 200px;
+}
 .cat-info {
   display: flex;
   padding-top: 20px;
