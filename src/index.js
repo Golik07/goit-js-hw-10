@@ -34,6 +34,7 @@ function nameCats(cats) {
       return `<option value = ${cat.id}>${cat.name}</option>`;
     })
     .join('');
+
   select.insertAdjacentHTML('afterbegin', render);
 }
 
@@ -48,9 +49,6 @@ function setOutput() {
       if (data.length === 1) {
         loader.style.display = 'none';
         renderCats(data);
-        new SlimSelect({
-          select: '.breed-select',
-        });
       } else {
         Notiflix.Notify.failure(
           `❌ Oops! Something went wrong! Try reloading the page!`
