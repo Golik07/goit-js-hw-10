@@ -2,6 +2,7 @@ import { fetchBreeds } from './cat-api';
 import { fetchCatByBreed } from './cat-api';
 import Notiflix from 'notiflix';
 import SlimSelect from 'slim-select';
+import 'slim-select/dist/slimselect.css';
 
 const select = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
@@ -14,7 +15,11 @@ fetchBreeds()
   .then(data => {
     select.style.display = 'flex';
     loader.style.display = 'none';
+
     nameCats(data);
+    new SlimSelect({
+      select: '.breed-select',
+    });
   })
   .catch(error => {
     loader.style.display = 'none';
